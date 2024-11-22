@@ -1,0 +1,198 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: system-ui, system-ui, sans-serif;
+}
+
+.page {
+    width: 80mm;
+    padding: 25px;
+    border: 1px solid black;
+}
+
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.header .info-bussines,
+.header .box-invoice-info {
+    position: relative;
+    width: 100%;
+}
+
+.info-bussines {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+}
+
+.info-bussines .bussines-logo {
+    margin-bottom: 15px;
+    width: 150px;
+    height: 80px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.box-invoice-info .invoice-info {
+    border: 1px solid black;
+    padding: 15px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+
+/* INFO */
+
+.info {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.info div {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.info label {
+    width: 90px;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.info p {
+    font-size: 10px;
+}
+
+
+/* TABLE */
+
+table {
+    width: 100%;
+    border-spacing: 0;
+    font-size: 10px;
+}
+
+table thead tr th {
+    font-size: 8px;
+    font-weight: bold;
+    border-top: 2px solid black;
+    border-bottom: 1px solid black;
+    border-spacing: 0;
+    padding: 2px;
+}
+
+table tbody tr td {
+    font-size: 9px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-spacing: 0;
+    padding: 2px;
+}
+
+.table-total {
+    border-spacing: 0;
+    font-size: 10px;
+}
+
+.table-total tbody tr td {
+    border: 0;
+    border-spacing: 0;
+    padding: 1px;
+}
+
+
+/* FOOTER */
+
+.footer {
+    display: flex;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+.footer .price-letter,
+.qr,
+.pay-condition {
+    width: 100%;
+    display: flex;
+    text-align: center;
+}
+
+.price-letter {
+    width: 100%;
+    margin-bottom: 15px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.qr {
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+
+.qr .qr-img {
+    width: 100px;
+}
+
+.qr .qr-hash {
+    margin-top: 10px;
+    width: 100%;
+    font-size: 9px;
+}
+
+.pay-condition {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.pay-condition div {
+    width: 100%;
+}
+
+.pay-condition div label {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.pay-condition div p {
+    font-size: 10px;
+}
+
+.consult {
+    width: 100%;
+    font-size: 10px;
+    text-align: center;
+}
+
+
+/* MISELANEAS */
+
+.font-bold {
+    font-weight: bold;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.align-center {
+    text-align: center;
+}

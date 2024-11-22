@@ -1,0 +1,214 @@
+<div data-name="menuPersonalizado" class="page" id="idconttu">
+    <!-- Top Navbar -->
+    <div class="navbar barra-sub">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="" id="btnmantenedoractividades" class="link back">
+                    <i class="fas fa-chevron-left icono"></i>
+                </a>
+            </div>
+            <div class="title titulo">kamachix Control :: ACTIVIDADES</div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Bottom Toolbar -->
+    <div class="toolbar toolbar-bottom">
+        <div class="toolbar-inner barra-inf">
+            <!-- Toolbar links -->
+            <a href="/home/" class="link"><i class="icono fas fa-home fa-2x"></i></a>
+            <a href="/asistencia/" class="link"><i class="icono far fa-address-card fa-2x"></i></a>
+            <a href="/perfil/" class="link"><i class="icono far fa-user fa-2x"></i></a>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <div class="page">
+        <div class="page-content infinite-scroll-content infinite-scroll-top">
+            <div id="divListadoActividades" style="display: block;">
+                <button class="accordion">Filtros</button>
+                <div class="panel2">
+                    <div id="divfiltros">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="data-table-rows-select" style="text-align: center;">
+                        POR PAGINA:
+                        <div class="input input-dropdown">
+                            <select id="cbopaginacion" onchange="mostrarMatriz()">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-25 text-align-center" id="loading">
+                        <div class="preloader color-green" style="width: 44px; height: 44px"></div>
+                    </div>
+
+
+                    <div id="contextMenux" class="contenedorx">
+                        <ul>
+                            <li id="btnnewactividad" style="display: inline-block;width: auto;" class="col button"><a
+                                    class="link links"><i class="iconobarra far fa-edit"></i> NUEVO</a>
+                            </li>
+                            <li id="btneditactividad" style="display: inline-block;width: auto;" class="col button"><a
+                                    class="link links" id="textedit"><i class="iconobarra far fa-edit"></i> EDITAR</a>
+                            </li>
+                            <li id="btndeleteactividad" style="display: inline-block;width: auto;"
+                                class="col button open-confirm"><a href="" class="link links" id="textdelete"><i
+                                        class="iconobarra far fa-trash-alt"></i> ELIMINAR</a>
+                            </li>
+                            <li id="btnBuscaractividad" style="display: inline-block;width: auto;"
+                                class="col button open-confirm"><a href="" class="link links" id="textdelete"><i class="iconobarra fas fa-redo-alt"></i> ACTUALIZAR</a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+                    <div class="data-table data-table-init card">
+
+                        <div style="height: 313px" id="divtabla" class="card-content"></div>
+
+                    </div>
+
+
+
+                    <div style="text-align: center;">Cantidad de
+                        registros: <span id="spnRegistros"></span>
+                    </div>
+
+                    <div id="divpagina">
+                    </div>
+                </div>
+
+                <div id="paginacion"></div>
+                
+
+                <div class="padding-horizontal padding-bottom" style="padding-top: 5px;">
+                    <a class="sheet-open button button-large button-fill" href="#" id="btnasasas"
+                        data-sheet=".my-sheet-push" style="background-color: #ff0101;" id="btnjconfirm">GANTT</a>
+                </div>
+                <div class="sheet-modal sheet-modal-push my-sheet-push" style="height: -webkit-fill-available;">
+                    <div class="toolbar">
+                        <div class="toolbar-inner">
+                            <div class="left"></div>
+                            <div class="right">
+                                <a class="link sheet-close" id="close-sheet">Cerrar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sheet-modal-inner">
+                        <div class="page-content">
+                            <div class="block-title block-title-medium ">GANTT.</div>
+                            <div class="block">
+                                <p>Recomendación: Por favor girar la pantalla para una mejor vista del grafico.</p>
+                                <div class="list inset">
+                                    <ul>
+                                        <li>
+                                            <div id="containergantt"></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- <div class="padding-horizontal padding-bottom" style="padding-top: 5px;">
+                                    <a class="button button-large button-fill" style="background-color: #ff0101;"
+                                        id="btnjconfirm">Confirmar</a>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div id="divDetalleActividad" style="display: none;">
+
+                <div class="block">
+                    <form class="list" id="my-form">
+                        <ul>
+                            <li>
+                                <div class="item-content item-input">
+                                    <div class="item-inner">
+                                        <div class="item-title item-label">Nombre de Actividad :</div>
+                                        <div class="item-input-wrap">
+                                            <input type="text" id="txtnameactividad">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="item-content item-input">
+                                <div class="item-inner">
+                                    <div class="item-title item-label">Descripcion :</div>
+                                    <div class="item-input-wrap">
+                                        <textarea placeholder="Descripcion" id="txtdescriptionactividad"></textarea>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="item-content item-input">
+                                <div class="item-inner">
+                                    <div class="item-title item-label">Progreso :</div>
+                                    <div class="item-input-wrap">
+                                        <input type="range" id="pgsactividad" min="0" max="100">
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content item-input">
+                                    <div class="item-inner">
+                                        <div class="item-title item-label">Fecha Inicio:</div>
+                                        <div class="item-input-wrap">
+                                            <input type="datetime-local" id="txtinit" required validate>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content item-input">
+                                    <div class="item-inner">
+                                        <div class="item-title item-label">Fecha Fin:</div>
+                                        <div class="item-input-wrap">
+                                            <input type="datetime-local" id="txtend" required validate>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- <li >
+                                <div class="item-content item-input">
+                                    <div class="item-inner">
+                                        <div class="item-title item-label">Fecha Registro:</div>
+                                        <div class="item-input-wrap">
+                                            <input type="datetime-local"  id="txtregister" required validate>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li> -->
+                        </ul>
+                    </form>
+                    <div>
+                        <p class="row">
+                            <button id="btnCancelarAc" class="col button button-fill color-red">Cancelar</button>
+                            <button id="btnNActividadConfirm"
+                                class="col button button-fill color-blue">Confirmar</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

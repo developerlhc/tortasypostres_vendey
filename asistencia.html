@@ -1,0 +1,221 @@
+<div data-name="asistencia" class="page">
+
+    <!-- Top Navbar -->
+    <div class="navbar barra-sub">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="" class="link back">
+                    <i class="fas fa-chevron-left icono"></i>
+                </a>
+            </div>
+            <div class="title titulo">kamachix Control</div>
+        </div>
+    </div>
+
+    <!-- Bottom Toolbar -->
+    <div class="toolbar toolbar-bottom">
+        <div class="toolbar-inner barra-inf">
+            <!-- Toolbar links -->
+            <a href="/home/" class="link"><i class="icono fas fa-home fa-2x"></i></a>
+            <a href="#" class="link"><i class="icono far fa-address-card fa-2x"></i></a>
+            <a href="/perfil/" class="link"><i class="icono far fa-user fa-2x"></i></a>
+        </div>
+    </div>
+
+    <!-- Scrollable page content -->
+
+
+
+    <div class="page-content">
+        <div class="block">
+            
+            <div class="list inline-labels no-hairlines-md">
+                <ul>
+                    <li class="item-content item-input">
+                        <div class="item-inner">
+                            <div>
+                                <label id="lblFechaAsistencia"></label>
+                            </div>
+                            <div>
+                                <a href="#" id="btnRegistrarAsistencia"><i
+                                        class="iconoasistencia fas fa-calendar-alt"></i></a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <br>
+
+
+
+            <div class="list inline-labels no-hairlines-md">
+                <ul>
+                    <li class="item-content item-input">
+                        <div class="item-inner">
+                            <div>
+                                <label id="lblFechaAsistencia">Registrar Justificacion</label>
+                            </div>
+                            <div>
+                                <a class="sheet-open" href="#" id="btnRegistrarJustificacion"
+                                    data-sheet=".my-sheet-push" title="Click Para Registrar"><i
+                                        class="iconoasistencia fas fa-exclamation"></i>
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+
+
+
+
+
+            <div id="mycardsBasic">
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+            <div id="mantenedorJusti" class="sheet-modal my-sheet-swipe-to-close"
+                style="height:auto; --f7-sheet-bg-color: #fff;">
+                <div class="right"><a id="btnclosejustification" class="link sheet-close" href="#"
+                        style="color: transparent;">X</a></div>
+                <div class="sheet-modal-inner">
+
+                </div>
+            </div>
+
+
+            <div class="sheet-modal sheet-modal-push my-sheet-push" style="height: 500px;;">
+                <div class="toolbar">
+                    <div class="toolbar-inner">
+                        <div class="left"></div>
+                        <div class="right" >
+                            <a class="link sheet-close" id="close-sheet">Cerrar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="sheet-modal-inner">
+                    <div class="page-content">
+                        <div class="block-title block-title-medium ">Registrar Justificacion.</div>
+                        <div class="block">
+                            <p>Advertencia , las justificaciones seran visibles para el administrador o supervidor
+                                de su empresa ,
+                                una vez que tengan un estado asignado usted no podra editarlos.</p>
+                            <div class="list inset">
+                                <ul>
+                                    <li class="item-content item-input" style="float: left; width: 70%;">
+                                        <div class="item-inner">
+                                            <div class="item-input-wrap">
+                                                <input type="text" id="txtjname"
+                                                    placeholder="Nombre de la justidicacion" required validate>
+                                                <span class="input-clear-button"></span>
+                                                <div class="item-input-info">llenar opcion obligatoria</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li style="float: left; width: 30%;">
+                                        <div class="item-content item-input">
+                                            <div class="item-inner">
+                                                <div class="item-title item-label">Seccion:</div>
+                                                <div class="item-input-wrap">
+                                                    <select id="cbojisexit">
+                                                        <option value="0">Entrada</option>
+                                                        <option value="1">Salida</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li style="float: left; width: 60%;">
+                                        <div class="item-content item-input">
+                                            <div class="item-inner">
+                                                <div class="item-title item-label">Fecha:</div>
+                                                <div class="item-input-wrap">
+                                                    <input type="date" name="jdia" id="txtjdia" required validate>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li style="float: left; width: 40%;">
+                                        <div class="item-content item-input">
+                                            <div class="item-inner">
+                                                <div class="item-title item-label">Hora:</div>
+                                                <div class="item-input-wrap">
+                                                    <input type="time" name="jhora" id="txtjhora" required validate>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+
+
+
+                            <textarea class="estilotextarea" cols="33" rows="5"
+                                placeholder="Registra tu justificacion ..." id="txtjdescription"></textarea>
+                            <p id="progresobarra" style="display: none;">
+                                <span class="progressbar-infinite color-multi"></span>
+                            </p>
+                            <p class="row">
+                                <button id="cameraApp" class="col button button-fill color-green">Tomar Foto</button>
+                                <button id="cameraAppL" class="col button button-fill color-blue">Abrir Galeria</button>
+                            </p>
+
+                            <section id="Fotos" style="color: #ff0101;"></section>
+                            <div id="myModal" class="modal">
+                                <span id="closemodal" class="close">&times;</span>
+                                <img class="modal-content" id="img01">
+                                <div id="caption"></div>
+                            </div>
+                            <div class="padding-horizontal padding-bottom" style="padding-top: 5px;">
+                                <a class="button button-large button-fill" style="background-color: #ff0101;"
+                                    id="btnjconfirm">Confirmar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+</div>

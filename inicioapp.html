@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Required meta tags-->
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!-- Color theme for statusbar (Android only) -->
+  <meta name="theme-color" content="#2196f3">
+  <!-- Your app title -->
+  <title>My App</title>
+  <!-- Path to Framework7 Library Bundle CSS -->
+  <link rel="stylesheet" href="css/framework7.bundle.min.css">
+  <!-- tipo de letra de google -->
+  <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald|PT+Sans" rel="stylesheet"> -->
+  <!-- Path to your custom app styles-->
+  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
+
+  <link rel="stylesheet" href="css/estilos.css">
+
+</head>
+
+<body>
+  <!-- App root element -->
+  <div id="app">
+    <div class="panel panel-left panel-resizable like">
+
+      <div class="block-title ">Navegacion
+        <a href="#" class="link"><i class="iconobarra fas fa-compass"></i></a>
+        <ul>
+          <li><a href="/horarios/" id="btnhorario" class="panel-close">Horarios</a></li>
+          <li><a href="/horarioPersonal/" id="btnhorariopersonal" class="panel-close">Horario</a></li>
+          <li><a href="/justificaciones/" id="btnjustificacion" class="panel-close">Justificaciones</a></li>
+          <li><a href="/personal/" id="btnpersonal" class="panel-close">Personal</a></li>
+          <li><a href="/actividades/" id="btnactividades" class="panel-close">Activades</a></li>
+          <li><a href="/actividadesPorUsuario/" id="btnactividadesbyuser" class="panel-close">Activades por Usuario</a></li>
+          <li><a href="/graficos/" id="btn" class="panel-close">Graficos</a></li>
+        </ul>
+
+
+      </div>
+
+
+      <!-- <button class="btn-large red" id="inferior" style="width: 90%;" id="btnLogin" onclick="CerrarSesion()">Cerrar Sesión</button> -->
+      <a class="button button-large button-fill" id="btnclosex" onclick="CerrarSesion()">Cerrar Sesión</a>
+    </div>
+    <div class="statusbar"></div>
+
+    <!-- Your main view, should have "view-main" class -->
+    <div class="view view-main">
+      <!-- Initial Page, "data-name" contains page name -->
+      <div class="page" data-name="home">
+
+        <!-- Top Navbar -->
+        <div class="navbar">
+          <div class=" navbar-inner barra-sub">
+            <div class="navbar-inner">
+              <div class="left">
+                <a href="" class="panel-open">
+                  <i class="fas fa-bars icono "></i>
+                </a>
+              </div>
+              <div class="title titulo">kamachix Control v1</div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Toolbar -->
+        <div class="toolbar toolbar-bottom">
+          <div class="toolbar-inner barra-inf">
+            <!-- Toolbar links -->
+            <a href="/home/" class="link" id="btnhomee"><i class="icono fas fa-home fa-2x"></i></a>
+            <a href="/asistencia/" class="link"><i class="icono far fa-address-card fa-2x"></i></a>
+            <a href="/perfil/" class="link"><i class="icono far fa-user fa-2x"></i></a>
+          </div>
+        </div>
+
+
+
+        <!-- Scrollable page content -->
+        <div class="page-content fondo">
+          <div class="block">
+            <div class="login-screen-title titulologin">INICIO</div>
+            <p class="subtitulo">¿Que es KAMACHIXCONTROL?</p>
+            <!-- Link to another page -->
+            <p><a class="button popup-open pop" href="#" data-popup=".popup-primero">Es gratis?</a></p>
+            <p><a class="button popup-open pop" href="#" data-popup=".popup-segundo">Existe algun plan PRO?</a></p>
+            <p><a class="button popup-open pop" href="#" data-popup=".popup-tercero">Ventajas de obtener un plan
+                PRO?</a>
+            </p>
+
+          </div>
+        </div>
+      </div>
+      <div class="popup popup-primero">
+        <div class="block">
+          <p>Es gratis?</p>
+          <!-- Close Popup -->
+          <p><a class="link popup-close" href="#">Cerrar</a></p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Quisque ac diam ac quam euismod porta vel a nunc.
+            Quisque sodales scelerisque est, at porta justo cursus ac.
+            Integer vitae quam a ante lobortis lobortis. Nam vehicula sagittis quam, sit amet congue purus consequat
+            sed. Maecenas eget mattis lectus.
+            Aliquam luctus luctus leo ac fringilla. Sed nec eros vel purus tincidunt tincidunt in in orci. Sed tellus
+            neque, pellentesque nec metus id,
+            congue elementum odio. Donec turpis tellus, mollis ac leo eget, accumsan fermentum lorem. Aliquam et
+            elementum neque. Vestibulum sed egestas ipsum.</p>
+        </div>
+      </div>
+      <div class="popup popup-segundo">
+        <div class="block">
+          <p>Existe algun plan PRO?</p>
+          <!-- Close Popup -->
+          <p><a class="link popup-close" href="#">Cerrar</a></p>
+          <p>Apache Cordova es un popular entorno de desarrollo de aplicaciones móviles,
+            originalmente creado por Nitobi. Adobe compró Nitobi en 2011, le cambió el nombre a PhoneGap,
+            y más tarde liberó una versión de código abierto del software llamado Apache Cordova.</p>
+        </div>
+      </div>
+      <div class="popup popup-tercero">
+        <div class="block">
+          <p>Ventajas de obtener un plan PRO?</p>
+          <!-- Close Popup -->
+          <p><a class="link popup-close" href="#">Cerrar</a></p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Quisque ac diam ac quam euismod porta vel a nunc.
+            Quisque sodales scelerisque est, at porta justo cursus ac.
+            Integer vitae quam a ante lobortis lobortis. Nam vehicula sagittis quam, sit amet congue purus consequat
+            sed.
+            Maecenas eget mattis lectus. Aliquam luctus luctus leo ac fringilla. Sed nec eros vel purus tincidunt
+            tincidunt in in orci.
+            Sed tellus neque, pellentesque nec metus id, congue elementum odio. Donec turpis tellus, mollis ac leo eget,
+            accumsan fermentum lorem.
+            Aliquam et elementum neque. Vestibulum sed egestas ipsum.
+            Apache Cordova es un popular entorno de desarrollo de aplicaciones móviles, originalmente creado por Nitobi.
+            Adobe compró Nitobi en 2011,
+            le cambió el nombre a PhoneGap, y más tarde liberó una versión de código abierto del software llamado Apache
+            Cordova.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="cordova.js"></script>
+  <script src="js/highcharts.js"></script>
+  <script src="js/gantt.js"></script>
+  <script src="js/exporting.js"></script>
+  <script type="text/javascript" src="js/framework7.bundle.min.js"></script>
+  <script type="text/javascript" src="js/my-app.js"></script>
+  <script type="text/javascript" src="js/all.js"></script>
+  
+
+
+
+</body>
+
+</html>

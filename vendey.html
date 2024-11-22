@@ -1,0 +1,1879 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/iziToast.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuex@3.6.2/dist/vuex.js"></script>
+    <link rel="stylesheet" href="css/styleticket.css">
+
+    <title>Vendey</title>
+    <style>
+        .container,
+        .container-sm {
+            max-width: 100%;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+
+
+
+
+
+        .search-input.active input {
+            border-radius: 5px 5px 0 0;
+        }
+
+        .search-input .autocom-box {
+            position: absolute;
+            padding: 0;
+            opacity: 0;
+            pointer-events: none;
+            max-height: 280px;
+            overflow-y: auto;
+            color: white;
+            background-color: #ffa000;
+            z-index: 999;
+        }
+
+        .search-input.active .autocom-box {
+            padding: 10px 8px;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .autocom-box li {
+            list-style: none;
+            padding: 8px 12px;
+            display: none;
+            width: 100%;
+            cursor: default;
+            border-radius: 3px;
+            z-index: 100 !important;
+        }
+
+        .search-input.active .autocom-box li {
+            display: block;
+        }
+
+        .autocom-box li:hover {
+            background: #91d611;
+        }
+
+        .search-input .icon {
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            height: 55px;
+            width: 55px;
+            text-align: center;
+            line-height: 55px;
+            font-size: 20px;
+            color: #644bff;
+            cursor: pointer;
+        }
+
+        #App {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            z-index: 999;
+        }
+
+        .alert {
+            box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .tbodyDiv {
+            max-height: clamp(25em, 10vh, 180px);
+            overflow: auto;
+        }
+
+        .tbodyDiv2 {
+            width: auto;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <div id="appCenfelec" class="container">
+        <!-- <div id="App" class="">
+
+        </div> -->
+        <form onsubmit="return false;" class="row " style="background-color:#4b830d; padding-top: 10px; padding-bottom: 10px;">
+
+            <div id="search-inputtext" class="col-9 search-input">
+                <a href="" target="#" hidden></a>
+                <input id="txtbuscarproducto"  type="text" class="form-control me-2" aria-label="Search"
+                    placeholder="Buscar por nombre del producto..">
+
+                <div class="autocom-box">
+                    <!-- here list are inserted from javascript -->
+                </div>
+                <div class="icon"><i class="fas fa-search"></i></div>
+            </div>
+            <button id="btncamara" style="width: 10%; background-color: #aee571; border-radius: 20%;"
+                class="col-1 btn btn-outline-success  bi bi-camera-fill" type="button"></button>
+
+            </form>
+          
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBackdrop"
+            aria-labelledby="offcanvasWithBackdropLabel">
+            <div style="background-color:#aee571;" class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Comprobante</h5>
+                <button type="button" id="btncerrarcomprobante" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <form class="row g-0">
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label">Tipo doc venta</label>
+                        <select class="form-control form-control-sm" name="" id="cbodocventa">
+                            <option value="01">FACTURA ELECTRONICA</option>
+                            <option value="03">BOLETA ELECTRONICA</option>
+                            <option value="12">TICKET NOTA DE VENTA</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputPassword4" class="form-label">Tipo doc
+                            Cliente</label>
+                        <select class="form-control form-control-sm" name="" id="cbodoccliente">
+                            <option value="01">DNI</option>
+                            <option value="06">RUC</option>
+                            <option value="04">CARNET DE EXTRANJERIA</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="inputPassword4" class="form-label">RUC/DNI</label>
+
+                        <input type="number" class="form-control form-control-sm" id="txtNumeroDni"
+                            placeholder="88888888">
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="inputPassword4" class="form-label">Cliente</label>
+
+                        <input type="text" class="form-control form-control-sm" id="txtrazonsocial"
+                            placeholder="ingresar nro en Ruc/Dni">
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="inputPassword4" class="form-label">Dirección</label>
+
+                        <input type="text" class="form-control form-control-sm" id="txtdireccioncliente"
+                            placeholder="ingresar Dirección">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="inputPassword4" class="form-label">Telefono</label>
+
+                        <input type="text" class="form-control form-control-sm" id="txttelefonocliente"
+                            placeholder="ingresar Telefono">
+                    </div>
+                    <button type="butxton" id="btncomprobanteaceptar"
+                        class=" my-1 btn btn-outline-success">Aceptar</button>
+
+                </form>
+
+
+            </div>
+        </div>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBackdroppagar"
+            aria-labelledby="offcanvasWithBackdropLabel">
+            <div style="background-color:#aee571;" class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Formas de pago</h5>
+                <button type="button" id="btncerrarpagar" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <form class="row g-0">
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label">Tipo de pago</label>
+                        <select   class="form-control form-control-sm"  @change="accionestipopago()" name="" id="cbotipopago">
+                            <option v-for="tipopago of tipopagos" v-bind:value="tipopago.ncodigo"> {{tipopago.cdescripcion}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputPassword4" class="form-label">Nro cuenta</label>
+                        <input type="number" class="form-control form-control-sm" id="txtnrocuenta"
+                            placeholder="Número cuenta">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="inputPassword4" class="form-label">Monto Pagar</label>
+
+                        <input type="number" readonly class="form-control form-control-sm" id="txtmontopagar"
+                            placeholder="0.00">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputPassword4" class="form-label">Monto Pagado</label>
+
+                        <input type="number" class="form-control form-control-sm" step=any autofocus id="txtmontopagado"
+                            placeholder="0.00">
+                    </div>
+                    <button type="butxton" id="btnpagarmodal" class=" my-1 btn btn-outline-success">Pagar</button>
+
+
+                </form>
+
+
+            </div>
+        </div>
+        <div class="offcanvas offcanvas-start" style="width: auto;" tabindex="-1" id="offcanvasWithBackdropCargarVenta"
+            aria-labelledby="offcanvasWithBackdropLabel">
+            <div class="offcanvas-header" style="background-color:#aee571;">
+                <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Cargar Venta</h5>
+                <button type="button" id="btncerrarpagar" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <form class="row g-0">
+                    <div class="d-none col-6 col-md-6">
+                        <label for="inputEmail4" class="form-label">Tipo doc venta</label>
+                        <select class="form-control form-control-sm" name="" id="cbodocventaCargarVenta">
+                            <option value="01">FACTURA</option>
+                            <option value="03">BOLETA</option>
+                            <option value="12">TICKET NOTA DE VENTA</option>
+                        </select>
+                    </div>
+                    <div class="d-none col-6 col-md-6">
+                        <label for="inputPassword4" class="form-label">Tipo doc
+                            Cliente</label>
+                        <select class="form-control form-control-sm" name="" id="cbodocclienteCargarVenta">
+                            <option value="01">DNI</option>
+                            <option value="06">RUC</option>
+                            <option value="03">CARNET DE EXTRANJERIA</option>
+                        </select>
+                    </div>
+
+                    <div class="d-none col-6 col-md-6">
+                        <label for="inputPassword4" class="form-label">RUC/DNI</label>
+
+                        <input type="number" class="form-control form-control-sm" id="txtNumeroDni"
+                            placeholder="88888888">
+                    </div>
+
+                    <div class="d-none col-6 col-md-6">
+                        <label for="inputPassword4" class="form-label">Cliente</label>
+                        <input type="number" class="form-control form-control-sm" id="txtrazonsocialCargarVenta"
+                            placeholder="ingresar nro en Ruc/Dni">
+                    </div>
+
+                    <div class="d-none col-6 col-md-6">
+                        <label for="inputPassword4" class="form-label">Fecha</label>
+                        <input type="date" class="form-control form-control-sm" id="txtfecha">
+                    </div>
+
+                    <div class="d-none col-6 col-md-6">
+                        <label for="inputPassword4" class="form-label">Codigo doc</label>
+                        <input type="text" class="form-control form-control-sm" id="txtcodigodoc"
+                            placeholder="ingresar Codigo doc">
+                    </div>
+
+                    <input type="button" @click="BuscarPedidos()" value="Buscar" class=" my-1 btn btn-outline-success">
+
+                    <div style="    max-height: clamp(37em, 10vh, 180px);" class="row-fluid tbodyDiv ">
+
+                        <table class="table table-dark table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Doc</th>
+                                    <th scope="col">Cliente-Dirección</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Anular</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="pedido of pedidos">
+                                    <th scope="row">  
+                                        <button v-bind:value="pedido.ncodigo" @click="Imprimir(pedido.ncodigo,false)" type="button" class="btn-sm btn-success">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
+                              <path d="M5.523 12.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.148 21.148 0 0 0 .5-1.05 12.045 12.045 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.881 3.881 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 6.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"></path>
+                              <path fill-rule="evenodd" d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3zM4.165 13.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.651 11.651 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.697 19.697 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"></path>
+                            </svg>
+                                          </button>
+
+                                        <button type="button" @click="Imprimir(pedido.ncodigo,true)" class="btn btn-primary">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
+                              <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2H5zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1z"></path>
+                              <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2V7zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"></path>
+                            </svg>
+                                            
+                                          </button>
+                                    </th>
+                                    <td>{{pedido.nombrecliente+'-'+pedido.direccion}}</td>
+                                    <td>{{pedido.fecha}}</td>
+                                    <td>{{pedido.total}}</td>
+                                    <td>
+                                        <button type="button" @click="Anular(pedido.ncodigo)" class="btn btn-danger">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                                            </svg></button>
+                                        </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+        
+        <div class="my-1 row">
+            <div class="col-12 " role="group">
+                <div class="tbodyDiv2">
+                    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop"
+                        aria-controls="offcanvasWithBackdrop" class="btn-sm btn-success">Comprobante</button>
+                    <button id="btnpagarModal" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasWithBackdroppagar" aria-controls="offcanvasWithBackdrop"
+                        class="btn-sm btn-warning">Pagar</button>
+                    
+                    <button id="btnSeparar" type="button" aria-controls="offcanvasWithBackdrop"
+                        class="btn-sm btn-outline-primary">Separar</button>
+                        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdropCargarVenta"
+                            aria-controls="offcanvasWithBackdrop" class="btn-sm btn-warning ">Cargar venta</button>
+                            
+
+                            <!-- <button type="button" @click="CierreCaja(false)"
+                            aria-controls="offcanvasWithBackdrop" id="btncierrecaja" class="btn-sm btn-warning ">Cierre de caja</button>
+                             -->
+
+                    <!-- <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop"
+                        aria-controls="offcanvasWithBackdrop" class="btn-sm btn-success">Emitir</button> -->
+                        <button id="btnactualizaroculto" class="btn-sm btn-outline-success d-none">Actualizar/cierre caja</button>
+                        <button id="btnactualizar" class="btn-sm btn-outline-success">Actualizar/cierre caja</button>
+                        <button id="btnmostrar" class=" d-none btn-sm btn-outline-success">OCULTAR/MOSTAR(FAMILIAS)</button>
+
+                    
+                    <!-- <button type="button" id="btncancelar" aria-controls="offcanvasWithBackdrop"
+                        class="btn-sm btn-danger">Salir</button>
+                         -->
+                         <select  class="input inputcombo " name="" id="cbousuariologin">
+                            <option v-for="usuario of usuarios" v-bind:value="usuario.ncodigo"> {{usuario.cdescripcion}}</option>
+                        </select>    
+                        <a class="btn btn-primary bi bi-box-seam col 1 " data-bs-toggle="offcanvas" href="#offcanvasWithBackdropinventory" role="button" aria-controls="offcanvasExample">
+                
+                        </a> 
+                        <button type="button" id="btncancelarventa" aria-controls="offcanvasWithBackdrop"
+                        class="btn-sm btn-danger">Cancelar</button>
+                </div>
+
+            </div>
+            <div class="my-1 col-7 col-md-6 col-lg-6 col-xl-6 col-sm-6">
+
+                <div class="row-fluid tbodyDiv ">
+                    <table style="font-size:11px ;" id="tablaproductos" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyproductos">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card mb-2 rounded-2 shadow-sm">
+                    <div class="card-header py-2">
+                        <h4 id="txtdocumentoventa" class="my-0 fw-normal">FACTURA</h4>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title pricing-card-title">Total S/ : <span id="txttotalventa">0.00</span></h1>
+                            <ul class="list-unstyled mt-2 mb-2">
+                                <li>Pagado S/: <span id="txtpagado"></span></li>
+                                <li>Vuelto S/: <span id="txtvuelto"></span></li>
+                            </ul>
+                            <button type="button" id="btnemitircard"
+                                class="w-100 btn btn-lg btn-outline-primary">EMITIR</button>
+                            <small id="txtdatos"></small>
+                            <div class="app">
+                                <div id="ui">
+                                    <button id="connectButton">bluetooth</button>
+                                </div>
+                                <div class="d-none" id="message">Hello.</div>
+                                <input type="button" value="Listar ticketera" id="cbolistarticketeras">
+                                <select name="" id="cboticketera">
+                                    <option value="0">Seleccione</option>
+
+                                </select>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class=" col-5 col-md-6 col-lg-6 col-xl-6 col-sm-6">
+                <div class="card">
+                    <div style="font-size:16px !important;" class="card-body">
+                        <form class="row g-1">
+                            <label for="inputAddress2" class="form-label">Familia</label>
+                            <select class="form-control form-control" name="" id="cbofamilia">
+                                <option value="01">Seleccione</option>
+                                <option value="01">Lacteos</option>
+                                <option value="03">Cereales</option>
+                                <option value="03">Galletas</option>
+                                <option value="03">Paquetes</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body" style="height: 750px !important;  overflow: scroll;">
+                        <div id="product-form" class="row">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div style="background-color:#aee571;" class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">PRODUCTO</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="row">
+                            <div id="emailHelp" class="form-text">Puede vender este producto de diferentes maneras</div>
+                            <div class="col-9">
+
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">Producto</label>
+                                    <input type="text" readonly class="form-control" id="txtNombreProducto"
+                                        aria-describedby="emailHelp">
+                                </div>
+                            </div>
+                            <div class="col-3">
+
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Cant</label>
+                                    <input type="number" step=any class="form-control" id="txtcantidad">
+                                </div>
+                            </div>
+                            <div class="col-7">
+
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Lista de precio</label>
+                                    <select class="form-control" name="" id="cboListaPrecio">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-5">
+
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Precio venta</label>
+                                    <input type="number" step=any placeholder="0.00" class="form-control" pattern="^\d*(\.\d{0,2})?$"
+                                        id="txtpreioventa">
+                                </div>
+                            </div>
+                            <div class="col-5">
+
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Total</label>
+                                    <input type="number" step=any readonly placeholder="0.00" class="form-control"
+                                        id="txttotalproducto">
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div id="habilitar" class="form-check form-switch">
+                                    <input class="form-check-input" name="chkhabilitado" type="checkbox" id="chkhabilitado">
+                                    <label class="form-check-label" id="lblchkhabilitado" for="chkhabilitado">Habitación ocupada</label>
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btncerrarproductomodal" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" id="btnagregarproducto" class="btn btn-primary">Agregar</button>
+                        <button  id="uploadButton2" class=" my-1 btn btn-outline-success">Subir Imagen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+    </div>
+    <div id="appCenfelec2" class="container">
+        <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="productModalLabel">Editar Producto</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="productForm">
+                    <div class="mb-3">
+                      <label for="productName" class="form-label">Nombre del Producto</label>
+                      <input type="text" class="form-control" data-codigo="" id="txtnombreproductonew">
+                    </div>
+                    <div class="mb-3">
+                      <label for="productPrice"  class="form-label">Precio</label>
+                      <input type="number" step="0.01"  class="form-control" id="txtprecioproductonew">
+                    </div>
+                    <div class="mb-3">
+                      <label for="productQuantity" class="form-label">Cantidad</label>
+                      <input type="number" class="form-control" id="txtcantidadproductonew">
+                    </div>
+                    <div class="mb-3">
+                      <label for="productObservations" class="form-label">Familia</label>
+                      <select class="form-control" name="" id="cbofamiliausar">
+                      </select>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" id="btncerrarmodal" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  <button  id="uploadButton" class=" my-1 btn btn-outline-success">Subir Imagen</button>
+                  <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                  <div id="uploadResult"></div>
+                  <button type="button"   @click="guardarproductonew()"  class="btn btn-primary">Guardar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div class="offcanvas offcanvas-start" style="width: auto;" tabindex="-1" id="offcanvasWithBackdropinventory"
+            aria-labelledby="offcanvasWithBackdropLabel">
+            <div class="offcanvas-header" style="background-color:#aee571;">
+                <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">INVENTARIO</h5>
+                <button type="button" id="btncerrarpagar" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="">
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="true" aria-controls="flush-collapseThree">
+                            Información cenfelec
+                        </button>
+                        </h2>
+                        <div id="flush-collapseThree" class="accordion-collapse collapse show" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">Esta opción nos sirve para poder tener el control de nuestro stock<br>
+                            <span>Contamos con dos opciones</span>
+                            <p>
+                                <strong> 1)Actualizar stock : </strong> Nos sirve para poder hacer nuestros ingresos(aumentar el stock) o salidas(disminuir el stock) de nuestros productos.
+                            </p>
+                            <p>
+                                <strong> 2)Consulta stock : </strong> Nos sirve para poder hacer nuestros ingresos(aumentar el stock) o salidas(disminuir el stock) de nuestros productos.
+                            </p>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        Actualizar stcok
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse " aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                    
+                    
+                        <div class="accordion-body">
+
+                            <form class="row g-0">
+                                <div class=" col-3 col-md-3 p-1">
+                                    <label for="inputEmail1" class="form-label">Cod Prod</label>
+                                    <input type="number"   class="form-control form-control-sm" id="txtcodprodinventory"
+                                    placeholder="">
+                                </div>
+            
+                                <div  class=" col-7 col-md-7 p-1 d-none">
+                                    <label for="inputEmail2" class="form-label">Cod Prod Int</label>
+                                    <input type="number"    class="form-control form-control-sm" id="txtcodprodinternoinventory"
+                                    placeholder="">
+                                </div>
+                                <div class=" col-4 col-md-4 p-1">
+                                    <label for="inputEmail3" class="form-label">Cant</label>
+                                    <input type="number"  class="form-control form-control-sm" id="txtcantidadinventory"
+                                    placeholder="">
+                                </div>
+                                <div class=" col-5 col-md-5 p-1 ">
+                                    <label for="inputEmail4" class="form-label">Precio</label>
+                                    <input type="number"    class="form-control form-control-sm" id="txtprecioinventory"
+                                    placeholder="">
+                                </div>
+                                <div class="form-check form-switch d-none">
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">Fecha vencimiento</label>
+                                    <label for="inputEmail4" class="form-label">Vencimiento</label>
+                                    <input type="date"    class="form-control form-control-sm" id="txtfechainventory"
+                                    placeholder=""> 
+                                </div>
+             
+                                <div class="col-12 col-md-12">
+                                    <label for="inputEmail5" class="form-label">Producto</label>
+                                    <input type="text" class="form-control form-control-sm" id="txtNombreProductoinevntory" placeholder="">
+                                    <div id="autocomplete-list" class="autocomplete-items"></div>
+                                </div>
+                                <div class="col-5 col-md-5">
+                                    <label   for="inputPassword4" class="form-label">Tipo Movimiento</label>
+                                    <select class="form-control form-control-sm"   name="" id="cbotipomovinventory">
+                                        <option value="01">INGRESO</option>
+                                        <option value="02">SALIDA</option>
+                                    </select>
+                                </div>
+                                <!-- <input type="button" id="btnBuscarInventoryProdOficial" value="Buscar sistema cenfelec" class=" my-1 btn btn-outline-success"> -->
+                                
+                            </form>
+                            <div class="col-6 col-md-6">
+                                <input type="button" @click="ActualizarStock(txtcodprodinventory,txtcodprodinternoinventory,txtcantidadinventory,txtprecioinventory,txtNombreProductoinevntory,cbotipomovinventory)" value="Actualizar stock" class=" my-1 btn btn-outline-success">
+
+                               
+                            </div>
+                         
+                        </div>
+                    </div>
+                    </div>
+                    <div class="accordion-item">
+                    
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        Consulta sctok
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" style="overflow: auto;" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <form class="row g-0">
+                                <div class=" col-12 col-md-12">
+                                    <label for="inputEmail4" class="form-label">Producto</label>
+                                    <input type="text" class="form-control form-control-sm" id="txtNombreProductoinevntorysearch"
+                                    placeholder="">
+                                </div>
+                                <div class=" col-12 col-md-12">
+                                    <input type="button" @click="ConsultaStock()" value="Buscar" class=" my-1 btn btn-outline-success">
+                                    <input type="button" @click="Editarproduct('',0,0,0)" value="Nuevo" class=" my-1 btn btn-outline-success">
+                                </div>
+    
+                                <div style="    max-height: clamp(20em, 50vh, 580px); overflow-y: auto;" class="row-fluid  ">
+            
+                                    <table class="table table-dark table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Producto</th>
+                                                <th scope="col">Almacen</th>
+                                                <th scope="col">Stock</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="pedido of productoslistado">
+                                                <td>
+                                                    <button v-bind:value="pedido.cproducto" @click="Editarproduct(pedido.cproducto,pedido.nstock,pedido.nprecio,pedido.nfamilia)" type="button" class="btn-sm btn-success">
+                                                        <i class="bi bi-pencil"></i>
+                                                      </button>
+                                                </td>
+                                                <td>{{pedido.cproducto}}</td>
+                                                <td>{{pedido.calmacen}}</td>
+                                                <td>{{pedido.nstock}}</td>
+                                            </tr>
+            
+                                        </tbody>
+                                    </table>
+                                </div>
+    
+                            </form>
+                            
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+            
+
+
+            </div>
+        </div>
+    </div>
+    <style>
+        .page {
+width: 80mm;
+padding: 25px;
+border: 1px solid black;
+}
+
+.header {
+display: flex;
+flex-wrap: wrap;
+width: 100%;
+margin-bottom: 20px;
+}
+
+.header .info-bussines,
+.header .box-invoice-info {
+position: relative;
+width: 100%;
+}
+
+.info-bussines {
+display: flex;
+flex-wrap: wrap;
+margin-bottom: 15px;
+align-items: center;
+justify-content: center;
+width: 100%;
+text-align: center;
+}
+
+.info-bussines .bussines-logo {
+margin-bottom: 15px;
+width: 150px;
+height: 80px;
+background-size: contain;
+background-position: center;
+background-repeat: no-repeat;
+}
+
+.box-invoice-info .invoice-info {
+border: 1px solid black;
+padding: 15px;
+text-align: center;
+
+white-space: nowrap;
+}
+h4{
+    font-size: 18px;
+}
+
+/* INFO */
+
+.info {
+width: 100%;
+margin-bottom: 20px;
+}
+
+.info div {
+display: flex;
+align-items: flex-end;
+margin-bottom: 5px;
+width: 100%;
+}
+
+.info label {
+width: 90px;
+font-weight: bold;
+font-size: 10px;
+}
+
+.info p {
+font-size: 10px;
+}
+
+
+/* TABLE */
+
+table {
+width: 100%;
+border-spacing: 0;
+font-size: 10px;
+}
+
+table thead tr th {
+font-size: 8px;
+font-weight: bold;
+border-top: 2px solid black;
+border-bottom: 1px solid black;
+border-spacing: 0;
+padding: 2px;
+}
+
+table tbody tr td {
+font-size: 9px;
+border-top: 1px solid black;
+border-bottom: 1px solid black;
+border-spacing: 0;
+padding: 2px;
+}
+
+.table-total {
+border-spacing: 0;
+font-size: 10px;
+}
+
+.table-total tbody tr td {
+border: 0;
+border-spacing: 0;
+padding: 1px;
+}
+
+
+/* FOOTER */
+
+.footer {
+display: flex;
+margin-top: 25px;
+flex-wrap: wrap;
+}
+
+.footer .price-letter,
+.qr,
+.pay-condition {
+width: 100%;
+display: flex;
+text-align: center;
+}
+
+.price-letter {
+width: 100%;
+margin-bottom: 15px;
+font-size: 12px;
+text-align: center;
+}
+
+.qr {
+margin-bottom: 15px;
+flex-wrap: wrap;
+justify-content: center;
+text-align: center;
+}
+
+.qr .qr-img {
+width: 100px;
+}
+
+.qr .qr-hash {
+margin-top: 10px;
+width: 100%;
+font-size: 9px;
+}
+
+.pay-condition {
+display: flex;
+flex-wrap: wrap;
+margin-bottom: 15px;
+}
+
+.pay-condition div {
+width: 100%;
+}
+
+.pay-condition div label {
+font-size: 12px;
+font-weight: bold;
+}
+
+.pay-condition div p {
+font-size: 10px;
+}
+
+.consult {
+width: 100%;
+font-size: 10px;
+text-align: center;
+}
+
+
+/* MISELANEAS */
+
+.font-bold {
+font-weight: bold;
+}
+
+.align-left {
+text-align: left;
+}
+
+.align-right {
+text-align: right;
+}
+
+.align-center {
+text-align: center;
+}
+  </style>
+  <div id="mydocumentoticket" class="d-none">
+  
+<pre id="printable-pre"></pre>
+   <center>
+       <div class="header">
+           <div class="info-bussines">
+               <div class="bussines-logo" style="background-image: url('img/jrcBN.png')"></div>
+               <div>
+                   <h4>CENFELEC SOLUTIONS S.A.C.</h4>
+                   <h5>RUC 20603729936</h5>
+                   <h6>, LIMA , LIMA - LIMA</h6>
+                   <h6>Email: videosvencor@gmail.com</h6>
+               </div>
+           </div>
+           <div class="box-invoice-info">
+               <div class="invoice-info">
+                   <h4>FACTURA ELECTRÓNICA</h4>
+                   <h2>F001-00000001</h2>
+               </div>
+           </div>
+       </div>
+   </center>
+   
+      <div class="info">
+          <div>
+              <label>F. Emisión : 2021-10-11</label>
+          </div>
+          <div>
+              <label>Cliente: VENTURA CORTEGANA CARLOS</label>
+          </div>
+          <div>
+              <label>RUC: 10453595973</label>
+          </div>
+          <div>
+              <label>DIRECCIÓN: av su casa</label>
+          </div>
+      </div>
+
+      <table>
+          <thead>
+              <tr>
+                  <th class="align-center">CANT.</th>
+                  <th class="align-left">DESCRIPCIÓN</th>
+                  <th>P.UNIT </th>
+                  <th class="align-right">TOTAL</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td class="align-center">1</td>
+                  <td>soporte hosting con facturacion electronica</td>
+                  <td class="align-center">11.80</td>
+                  <td class="align-right">11.80</td>
+              </tr>
+          </tbody>
+      </table>
+      <table class="table-total">
+          <tbody>
+              <tr>
+                  <td></td>
+                  <td class="font-bold" style="width: 100px;">P. GRAVADAS:</td>
+                  <td style="width: 15px;">S/.</td>
+                  <td class="align-right" style="width: 80px;">11.80</td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td class="font-bold">IGV:</td>
+                  <td>S/.</td>
+                  <td class="align-right" style="width: 80px;">1.80</td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td class="font-bold">TOTAL A PAGAR:</td>
+                  <td>S/.</td>
+                  <td class="align-right" style="width: 80px;">11.80</td>
+              </tr>
+          </tbody>
+      </table>
+
+      <div class="footer">
+          <div class="price-letter">
+              <p>SON: <b> ONCE CON 80/100 SOLES</b></p>
+          </div>
+          <div class="qr">
+              <img class="qr-img" src="img/qr.jpg">
+              <p class="qr-hash">Código Hash: McQtdnUg55r0/Ea9up9yWvVLdH0=</p>
+          </div>
+          <div class="pay-condition">
+              <div>
+                  <label>CONDICIÓN DE PAGO:</label>
+                  <p>Contado</p>
+              </div>
+              <div>
+                  <label>PAGOS:</label>
+                  <p>• Efectivo - S/ 11.8</p>
+              </div>
+              <div>
+                  <label>Vendedor:</label>
+                  <p>Administrador</p>
+              </div>
+          </div>
+          <div class="consult">
+              <p>Para consultar el comprobante ingresar a</p>
+              <a href="http://cenfelec.cenfefactu.pe:8085/busca">http://cenfelec.cenfefactu.pe:8085/busca</a>
+          </div>
+      </div>
+      <style>
+
+      </style>
+  </div>
+<div id="mimodalcierrecaja">
+
+</div>
+  <!-- Modal -->
+
+    <!-- Optional JavaScript; choose one of the two! -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script type="text/javascript">
+        // var uribaseReal = "http://localhost:61869/Vendey/";
+        // var uribaseReal = "https://www.cenfeapp.com/Vendey/";
+        var uribaseReal = localStorage.getItem("uribase");
+        var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+JsBarcode(svg, "https://n9.cl/wt5zs", {
+  format: "CODE128",
+  lineColor: "#000000",
+  width: 2,
+  height: 100,
+  displayValue: true
+});
+let mihtml=svg;
+
+        const appCenfelec = new Vue({
+
+el: '#appCenfelec',
+data: {
+    misvg:mihtml,
+    pedidos: [],
+    usuarios:[],
+    tipopagos:[],
+}, beforeMount() {
+
+    if (localStorage.getItem("gsempresaglobal")) {
+        this.BuscarPedidos(localStorage.getItem("gsempresaglobal"));
+        this.BuscarUsuarios(localStorage.getItem("gsempresaglobal"));
+        this.BuscarTipoPagos(localStorage.getItem("gsempresaglobal"));
+    }
+},
+methods: {
+   accionestipopago(){
+        let cbotipopago = document.getElementById("cbotipopago");
+      console.log("revisar ", cbotipopago.options[cbotipopago.selectedIndex].value)
+      console.log("revisar ", cbotipopago.options[cbotipopago.selectedIndex])
+      console.log("revisar tex ", cbotipopago.options[cbotipopago.selectedIndex].text)
+
+      if (cbotipopago) {
+        
+      }
+
+    }
+,
+CierreCaja(isprint){
+    let lineamonto="";
+    let montotipo="";  
+for (let index = 0; index < array.length; index++) {
+    const element = array[index];
+    
+}   
+var raw = JSON.stringify({
+            "token": localStorage.getItem("gsempresaglobal"),
+            "procedure": "spVNT_CIERRECAJACSV",
+            "parametros": localStorage.getItem("gsCod_Alma_Caja") + "|" + localStorage.getItem("gsNroCaja") + "|"
+        });
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        fetch(uribaseReal + "EjecutarVendey", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                let lista = result.Rpta.split("¬");
+                var nCampos = lista.length;
+                let col = [];
+                let j = 1;
+                for (j = 1; j < nCampos; j++) {
+                    col = lista[j].split("|");
+                    if (DIRECCION.length==0) {
+                        // lineamonto+=`${col[0]} : ${col[1]}`;   
+                        montotipo+=`${col[0]} : ${col[1]}`;   
+                    }
+                }
+                const fechaActual = new Date();
+
+const año = fechaActual.getFullYear();
+const mes = ('0' + (fechaActual.getMonth() + 1)).slice(-2);
+const dia = ('0' + fechaActual.getDate()).slice(-2);
+const hora = ('0' + fechaActual.getHours()).slice(-2);
+const minuto = ('0' + fechaActual.getMinutes()).slice(-2);
+
+const fechaFormateada = `${año}-${mes}-${dia} ${hora}:${minuto}`;
+
+console.log(fechaFormateada);
+ 
+                let micierrecaja=`
+  Cierre caja-${fechaFormateada}
+-----------------------------
+DMEZA TORTAS Y POSTRES
+     20601050723
+     SANTA CLARA    
+-----------------------------
+${montotipo}
+::::::::::::::::::::::::::::::
+`;
+debugger
+
+if (isprint) {
+bluetoothSerial.write( prueba, function (data) {
+}, {});
+    
+}  else{
+
+
+var options = {
+                    documentSize: 'A4',
+                    type: "share",         //Open a context menu and ask the user what to do next (print, mail, etc..).
+                    fileName: serienumero+".pdf" //it will use this filename as a place-holder
+                }
+               
+ 
+pdf.fromData( '<pre>'+prueba+'</pre>', options)
+    .then((stats)=> console.log('status', stats) )   // ok..., ok if it was able to handle the file to the OS.  
+    .catch((err)=>{
+        alert(err)
+    
+    })
+ 
+
+
+}
+
+    
+
+            });
+
+
+},
+Anular(ncodigo){
+    if (confirm("¿Está seguro de anular el pedido?")) {
+        var raw = JSON.stringify({
+            "token": localStorage.getItem("gsempresaglobal"),
+            "procedure": "spVNT_ANULARVENTA",
+            "parametros": ncodigo + "|" + localStorage.getItem("gsUsuarioCaja") + "|"+"prueba"
+        });    
+        debugger
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        fetch(uribaseReal + "EjecutarVendey", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                    this.BuscarPedidos(localStorage.getItem("gsempresaglobal"));
+                })
+    }else{
+        alert("Anulación cancelado");
+    }
+    
+},
+    Imprimir(ncodigo,isprint){
+     
+        this.ImprimirPrincipal(localStorage.getItem("gsempresaglobal"),ncodigo)
+
+        var raw = JSON.stringify({
+            "token": localStorage.getItem("gsempresaglobal"),
+            "procedure": "spVNT_FACTURATICKETCSVWEB",
+            "parametros": ncodigo + "|" + ncodigo + "|"
+        });
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        let detallearmar=``;
+let serienumero=""
+let nmontopagado="";
+let nsubtotal="";
+let ntotaligv="";
+let ntotalfacturaboleta="";
+let totaltexto="";
+let datosfinal="";
+let CLIENTE="";
+let FECHA="";
+let VENDEDOR="";
+let RUC="";
+let DIRECCION="";
+
+let TELEFONO="";
+        this.pedidos = [];
+        fetch(uribaseReal + "EjecutarVendey", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                let reporteserver = result.Rpta;
+
+//                 let lista = result.Rpta.split("¬");
+//                 var nCampos = lista.length;
+//                 let col = [];
+//                 let j = 1;
+//                 for (j = 1; j < nCampos; j++) {
+//                     col = lista[j].split("|");
+                    
+//                     if (DIRECCION.length==0) {
+//                       let _DIRECCION=`DIRECCION :${col[70]}`;
+//                       DIRECCION=`${_DIRECCION.replace(/(.{31})/g, "$1\n")}`;
+//             TELEFONO=`\n TELEFONO : ${col[63].replace(/(.{31})/g, "$1\n") }`;
+//              }
+//                     nmontopagado=`${col[25]}`;
+//                     nsubtotal=`${col[12]}`;
+//                     ntotaligv=`${col[16]}`;
+//                     ntotalfacturaboleta=`${col[18]}`;
+//                     totaltexto=`SON : ${col[21].replace(/(.{31})/g, "$1\n") }\n`;
+//                     nvuelto=`${col[21].replace(/(.{31})/g, "$1\n") }\n`;
+//                     VENDEDOR=`${col[52]}`;
+//                     serienumero=`${col[5]}`;
+//                     detallearmar+=`${col[31].replace(/(.{30})/g, "$1\n")}\n`;
+//                     detallearmar+=`${col[66]}          ${col[58]}      ${col[41]}\n`;
+//                     detallearmar+=`------------------------------\n`;
+//                     if (datosfinal.length==0) {
+//                          CLIENTE=`CLIENTE : ${col[48].trim()}`;
+//                          CLIENTE=CLIENTE.replace(/(.{30})/g, "$1\n");
+//                          FECHA=`${col[6]}`;
+//                          RUC=`${col[46]}`;
+//                         if (serienumero.includes("B")|| serienumero.includes("F")) {
+//                         datosfinal =`         SUBTOTAL  S/ ${nsubtotal}\n`;
+//                         datosfinal+=`              IGV  S/ ${ntotaligv}\n`;
+//                         }
+//                         datosfinal+=`    IMPORTE TOTAL  S/ ${ntotalfacturaboleta}\n`;
+//                         datosfinal+=`           PAGADO  S/ ${nmontopagado}\n`;
+//                         datosfinal+=`           VUELTO  S/ ${ntotalfacturaboleta-nmontopagado}`;
+//                     }
+//                 }
+// let datosEmpresaextra=``;
+// let nombreempresa=""
+// let datosextra2=``;
+// let mirucempresa="10422394228";
+// let miurl="gasdionys";
+// let myruc=``;
+// let miqr="";
+
+// let token=localStorage.getItem("gstoken");
+// if (token=="1277717") {
+// nombreempresa="DISTRIBUIDORA ARUBBA S.A.C";
+// datosEmpresaextra="";
+// datosextra2="";
+// }else if(token=="1777717"){
+// let nombreempresa="            DIONYS"
+
+// datosextra2=`DISTRIBUIDORA DE GAS AUTORIZADO
+// POR OSINERGMIN`;
+// datosEmpresaextra=`DISTRIBUIDORA DE GAS AUTORIZADO
+// POR OSINERGMIN
+// DIRECCION : JR LIBERTAD N° 315 
+// (PARQUE ECHENIQUE)
+// LURIGANCHO-CHOSICA-LIMA-LIMA`
+// }else if(token=="31314747"){
+// let nombreempresa="   INVERSIONES DIONYS S.A.C."
+
+// datosextra2=`Jr. Trujillo Sur # 116 - Lurigancho -
+// Chosica`;
+// datosEmpresaextra=`TELEFONO: 989005529 / 361-3546
+// ${datosextra2}
+// `
+// }else if (token == "77771") {
+//     datosEmpresaextra=`jr.Libertad 330/jr. Brasil 498
+//          Chosica \n
+//     +01 6942775 / +01 3076089`
+// miurl="hospedajecorona"
+// nombreempresa="     HOSPEDAJE CORONA	";
+// myruc=`10422394228`;
+// miqr= "\x1D\x28\x6B\x23\x00\x31\x50\x30\x68\x74\x74\x70\x73\x3A\x2F\x2F\x68\x6F\x73\x70\x65\x64\x61\x6A\x65\x63\x6F\x72\x6F\x6E\x61\x2E\x63\x65\x6E\x66\x65\x66\x61\x63\x74\x75\x2E\x78\x79\x7A\x2F\x62\x75\x73\x63\x61\x72\x1D\x28\x6B\x03\x00\x31\x51\x30";
+//     }
+//     if(token=="1777717"){
+// myruc=`        RUC 10076809041
+// DE : DIONISIA CAMPOS CONDOR`;
+// }
+// if(token=="7777767"){
+//     miurl="inversiondesjl"
+
+// myruc=`        RUC 20549539093
+// INVERSIONES Y DISTRIBUIDORAS JL`;
+// }
+// if(token=="31314747"){
+//     miurl="dionys"
+
+// myruc=`        RUC 20508351110
+// EL BROCHON PINTURERIA
+// `;
+// }
+// if(token=="777721214"){
+//     miurl="tortasypostresdmeza"
+//     nombreempresa=`        DMEZA TORTAS Y POSTRES
+//         20601050723
+//         SANTA CLARA
+// `
+//     miurl="DMEZA TORTAS Y POSTRES"
+
+// // myruc=`        DMEZA TORTAS Y POSTRES
+// //         20601050723
+// //         SANTA CLARA
+// // `;
+// }
+
+
+//                 let documento="           TICKET"
+// if (serienumero.includes("B")) {
+//         documento="BOLETA ELECTRONICA"
+//         TELEFONO="";
+//     }else if(serienumero.includes("F")){
+//         documento="FACTURA ELECTRONICA"
+//         TELEFONO="";
+//     }
+// let datosEmpresa="";
+// let extrabuscar=`Representacion impresa de la ${documento.toLowerCase()} , consulte en https://${miurl}.cenfefactu.xyz/buscar`;
+
+
+
+
+// datosEmpresa=`
+// ${nombreempresa}            
+// ::::::::::::::::::::::::::::::
+//       ${documento.trim()}
+//       ${serienumero.trim()}
+// ::::::::::::::::::::::::::::::
+// ${myruc}
+// ${datosEmpresaextra.trim()}`;   
+//     if (serienumero.includes("B")) {
+//         documento="BOLETA ELECTRONICA"
+//         TELEFONO="";
+//     }else if(serienumero.includes("F")){
+//         documento="FACTURA ELECTRONICA"
+//         TELEFONO="";
+//     }else{
+//        // myruc="";
+//         DIRECCION+=`\n ${TELEFONO.trim()}`;
+//         datosEmpresa=`${nombreempresa.trim()
+//         }
+// ::::::::::::::::::::::::::::::
+//   ${documento.trim()}
+//       ${serienumero.trim()}
+// ::::::::::::::::::::::::::::::
+// ${datosextra2}`;
+//         extrabuscar="";
+//     }    
+//     let datospedidods=""        
+//     if(token=="1777717"){
+//         datospedidods="CENTRAL DE PEDIDOS 989005529"
+//     }        
+// if (token=="1277717") {
+// datospedidods="";
+// }
+// const ahora = new Date();
+//     let horas = ahora.getHours();
+//     const minutos = ahora.getMinutes().toString().padStart(2, '0');
+//     const ampm = horas >= 12 ? 'PM' : 'AM';
+//     horas = horas % 12;
+//     horas = horas ? horas : 12; // La hora '0' debe ser '12'
+//     const horasStr = horas.toString().padStart(2, '0');
+//    let horaActual= `${horasStr}:${minutos} ${ampm}`;
+// extrabuscar="";
+// let prueba=`${datosEmpresa}
+// ::::::::::::::::::::::::::::::
+// ${CLIENTE.trim()}
+// RUC/DNI : ${RUC}
+// ${DIRECCION.trim()}
+// FECHA   : ${FECHA} ${horaActual}
+// VENDEDOR   : ${VENDEDOR}
+// ::::::::::::::::::::::::::::::
+// CANT       P.UNIT        P.TOT
+// ------------------------------
+// ${detallearmar}
+// ${datosfinal}
+// ::::::::::::::::::::::::::::::
+// ${totaltexto.toUpperCase().replace(/(.{31})/g, "$1\n")}
+// .....Gracias por su compra.....
+// ${extrabuscar.replace(/(.{29})/g, "$1\n")}
+// \n\n\n\n`;
+
+prueba=reporteserver;
+
+if (isprint) {
+    bluetoothSerial.write( prueba, function (data) {
+}, {});
+
+
+
+// // Inicializar la impresora (puedes ajustar esto según tu configuración)
+// const init = "\x1B\x40";
+
+// // Centrar el texto
+// const center = "\x1B\x61\x01";
+
+// // URL para el código QR
+// const qrCode = "https://n9.cl/wt5zs   ";
+
+// // Comando para imprimir el código QR
+// const qrSize = "\x1D\x28\x6B\x03\x00\x31\x45\x33"; // Tamaño del código QR (ajusta según tus necesidades)
+// const qrData = "\x1D\x28\x6B" + String.fromCharCode(qrCode.length + 3) + "\x31\x50\x30" + qrCode;
+
+// // Enviar el comando a la impresora
+// bluetoothSerial.write(init + center + qrSize + qrData);
+// bluetoothSerial.write('\x1D\x28\x6B\x03\x00\x31\x51\x30');
+
+
+}  else{
+
+
+var options = {
+                    documentSize: 'A4',
+                    type: "share",         //Open a context menu and ask the user what to do next (print, mail, etc..).
+                    fileName: serienumero+".pdf" //it will use this filename as a place-holder
+                }
+               
+
+pdf.fromData("<pre>"+ prueba+"</pre>", options)
+    .then((stats)=> console.log('status', stats) )   // ok..., ok if it was able to handle the file to the OS.  
+    .catch((err)=>{
+        alert(err)
+    
+    })
+ 
+
+
+}
+
+    
+
+            });
+
+    },
+    PedidoPdf(pedido) {
+
+        var raw = JSON.stringify({
+            "token": localStorage.getItem("gsempresaglobal"),
+            "procedure": "spVNT_FACTURADETCSVWEB",
+            "parametros": pedido.ncodigo + "|" + pedido.ncodigo + "|"
+        });
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        this.pedidos = [];
+        fetch(uribaseReal + "EjecutarVendey", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                let lista = result.Rpta.split("¬");
+                var nCampos = lista.length;
+                let col = [];
+                let j = 1;
+                for (j = 1; j < nCampos; j++) {
+                    col = lista[j].split("|");
+                    pedido.detalles.push({ ncodigo: col[0], descripcion: col[1], cantidad: col[2], total: col[3] });
+                }
+
+                let options = {
+                    documentSize: 'A4',
+                    type: 'base64'
+                }
+
+                let mydetalle = "";
+                pedido.detalles.forEach(element => {
+                    mydetalle += `<pre> 
+${element.cantidad} ${element.descripcion} ${element.total}
+</pre>`;
+                });
+
+                let mipedido = "";
+                mipedido = `
+<h1>PEDIDO ${pedido.ncodigo}</h1>
+
+<pre>
+Cliente : ${pedido.nombrecliente} 
+Dirección :${pedido.direccion}
+Fecha : ${pedido.fecha}
+Total : S/ ${pedido.total}
+------------------------------------------------------
+</pre>
+${mydetalle}
+`;
+
+              var opts = {
+                    documentSize: 'Chou4',
+                    type: "share",         //Open a context menu and ask the user what to do next (print, mail, etc..).
+                    fileName: 'pdf.pdf' //it will use this filename as a place-holder
+                }
+                pdf.fromData(document.getElementById("mydocumentoticket").innerHTML, opts)
+                    .then((status) => console.log('success->', status))
+                    .catch((error) => console.log(error));
+
+let myhtml=document.getElementById("mydocumentoticket").innerHTML;
+                    pdf.htmlToPDF({
+    data: myhtml,
+    documentSize: "A4",
+    landscape: "portrait",
+    type: "share" //use share to open the open-with-menu.
+}, this.success, this.failure);
+
+    //                 pdf.htmlToPDF({
+    //     url: 'indexticket.html',
+    //     documentSize: 'A4',
+    //     landscape: 'portrait',
+    //     type: 'base64'
+    // }, this.success, this.failure);
+
+
+                    
+            })
+
+
+
+
+    },
+    ImprimirPrincipal(mytoken,ncodfactura){
+    
+    var raw = JSON.stringify({
+      "token": mytoken,
+      "procedure": "spVNT_imprimirweb",
+      "parametros":  ncodfactura+"|"+localStorage.getItem("gsmac")+"|"
+    });
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+    fetch(uribaseReal+"EjecutarVendey", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        
+      })
+      .catch(error => console.log('error', error));
+  }
+    , BuscarUsuarios(mytoken){
+    
+    var raw = JSON.stringify({
+      "token": mytoken,
+      "procedure": "spVNT_UserCajacsvweb",
+      "parametros":  "1|1|"
+    });
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+    this.usuarios=[];
+    fetch(uribaseReal+"EjecutarVendey", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        let lista = result.Rpta.split("¬");
+        var nCampos = lista.length;
+        let col = [];
+        let j = 1;
+        this.usuarios.push({ncodigo:0,cdescripcion:"Seleccione"});
+        for (j = 1; j < nCampos; j++) {
+          col = lista[j].split("|");
+          console.log(col[1]);
+          this.usuarios.push({ncodigo:col[0],cdescripcion:col[1]});
+        }
+      })
+      .catch(error => console.log('error', error));
+  },BuscarTipoPagos(mytoken){
+    
+    var raw = JSON.stringify({
+      "token": mytoken,
+      "procedure": "spcfg_tipopagoCSVWEB",
+      "parametros":  "1|1|"
+    });
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+    this.tipopagos=[];
+    fetch(uribaseReal+"EjecutarVendey", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        let lista = result.Rpta.split("¬");
+        var nCampos = lista.length;
+        let col = [];
+        let j = 1;
+        this.tipopagos.push({ncodigo:0,cdescripcion:"Seleccione"});
+        for (j = 1; j < nCampos; j++) {
+          col = lista[j].split("|");
+          console.log(col[1]);
+          this.tipopagos.push({ncodigo:col[0]+"|"+col[1]+"|"+col[2]+"|"+col[3],cdescripcion:col[0]});
+        }
+        var selectElement = document.getElementById('cbotipopago');
+            
+            // Establecer el valor predeterminado
+            selectElement.value = 'EFECTIVO|0.00||';
+      })
+      .catch(error => console.log('error', error));
+  },
+    BuscarPedidos(mytoken) {
+        if (mytoken) {
+
+        } else {
+            mytoken = localStorage.getItem("gsempresaglobal");
+        }
+        var raw = JSON.stringify({
+            "token": mytoken,
+            "procedure": "spvnt_pedidoscsvweb",
+            "parametros": "1|1|"
+        });
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        this.pedidos = [];
+        fetch(uribaseReal + "EjecutarVendey", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                let lista = result.Rpta.split("¬");
+                var nCampos = lista.length;
+                let col = [];
+                let j = 1;
+                for (j = 1; j < nCampos; j++) {
+                    col = lista[j].split("|");
+                    this.pedidos.push({ ncodigo: col[0], fecha: col[1], nombrecliente: col[2], direccion: col[3], total: col[4], detalles: [] });
+                }
+            })
+            .catch(error => console.log('error', error));
+    },
+
+}
+});
+
+
+const con=new Vue({
+      el:"#appCenfelec2",
+     
+      data: {
+    pedidos: [],
+     //txtcodprodinventory:0,txtcodprodinternoinventory:'',txtcantidadinventory:0,txtprecioinventory:0.00,txtNombreProductoinevntory:'',cbotipomovinventory:'',
+    // productoencontrado: {txtcodprodinventory:"",txtcodprodinternoinventory:"",txtcantidadinventory:"",txtprecioinventory:"",txtNombreProductoinevntory:"",cbotipomovinventory:''},
+    productoslistado: [],
+    usuarios:[],
+}, beforeMount() {
+
+},
+methods: {
+    guardarproductonew(){
+        
+        let txtnombreproductonew= document.getElementById("txtnombreproductonew");
+        let txtprecioproductonew= document.getElementById("txtprecioproductonew").value;
+        let txtcantidadproductonew= document.getElementById("txtcantidadproductonew").value;
+        let cbofamiliausar= document.getElementById("cbofamiliausar").value;
+        const codigo = txtnombreproductonew.getAttribute('data-codigo');
+console.log(txtnombreproductonew.value,txtprecioproductonew,txtcantidadproductonew,cbofamiliausar)
+if(codigo.length==0){
+    txtnombreproductonew.setAttribute('data-codigo', '0');
+}
+let misdatos=codigo+"|"+txtnombreproductonew.value+"|"+txtprecioproductonew+"|"+txtcantidadproductonew+"|"+cbofamiliausar.charAt(2);
+console.log("spINVPRODUCTOSCSVWEB |",misdatos,"|")
+        var raw = JSON.stringify({
+            "token": localStorage.getItem("gsempresaglobal"),
+            "procedure": "spINVPRODUCTOSCSVWEB",
+            "parametros": misdatos
+        });
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        fetch(uribaseReal + "EjecutarVendey", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                alert("Producto guardado");
+                document.getElementById("btncerrarmodal").click();
+                this.ConsultaStock(localStorage.getItem("gsempresaglobal"));
+                document.getElementById("btnactualizaroculto").click();
+            })
+            .catch(error => console.log('error', error));
+
+    },
+    Editarproduct(ncodigo,ncantidad,nprecio,nfamilia){
+        debugger
+        let txtnombreproductonew= document.getElementById("txtnombreproductonew");
+        
+
+        if (ncodigo.length==0) {
+            document.getElementById('productModalLabel').innerText = "Nuevo producto";
+            txtnombreproductonew.setAttribute('data-codigo', '0');
+        }else{
+            document.getElementById('productModalLabel').innerText = "Editar producto";
+            txtnombreproductonew.setAttribute('data-codigo',  ncodigo.split("-")[0]);
+            txtnombreproductonew.value = ncodigo.split("-")[1];
+        }   
+        let lista = JSON.parse(localStorage.getItem("ListaFamilias"))
+    
+      const cbofamilia = document.getElementById("cbofamiliausar");
+      cbofamilia.innerHTML = "";
+      let elementinnerHTML = "";
+      lista.forEach(item => {
+        
+        elementinnerHTML += `
+        <option  value="${item.NCODFAMILIA}">${item.CFAMILIADESC}</option>
+        `;
+      });
+      cbofamilia.innerHTML = elementinnerHTML;
+
+        var myModal = new bootstrap.Modal(document.getElementById('productModal'));
+        myModal.show();
+        document.getElementById("txtcodprodinventory").value = ncodigo.split("-")[0];
+        
+        if (document.getElementById("txtcodprodinventory").value <1) {
+            document.getElementById('uploadButton').disabled = true;
+        }
+        document.getElementById("txtprecioproductonew").value=nprecio;
+        document.getElementById("txtcantidadproductonew").value=ncantidad;
+        document.getElementById("cbofamiliausar").value=nfamilia
+        // console.log(ncodigo)
+},
+    ActualizarStock() {
+        let txtcodprodinventory = document.getElementById("txtcodprodinventory").value;
+        let txtcodprodinternoinventory = document.getElementById("txtcodprodinternoinventory").value;
+        let txtcantidadinventory = document.getElementById("txtcantidadinventory").value;
+        let txtprecioinventory = document.getElementById("txtprecioinventory").value;
+        let txtNombreProductoinevntory = document.getElementById("txtNombreProductoinevntory").value;
+        let cbotipomovinventory = document.getElementById("cbotipomovinventory").value;
+        console.log(txtcodprodinventory)
+        console.log(txtcodprodinternoinventory)
+        console.log(txtcantidadinventory);
+        console.log(txtprecioinventory)
+        console.log(txtNombreProductoinevntory)
+        console.log(cbotipomovinventory)
+        
+        var raw = JSON.stringify({
+            "token": localStorage.getItem("gsempresaglobal"),
+            "procedure": "spINVACTUALIZARSTOCKCSVWEB",
+            "parametros": txtcodprodinventory+"|"+txtcodprodinternoinventory+"|"+txtcantidadinventory+"|"+txtprecioinventory+'|'+txtNombreProductoinevntory+"|"+cbotipomovinventory});
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        this.productoencontrado = [];
+        fetch(uribaseReal + "EjecutarVendey", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                let lista = result.Rpta.split("¬");
+                var nCampos = lista.length;
+                let col = [];
+                let j = 1;
+                for (j = 1; j < nCampos; j++) {
+                    col = lista[j].split("|");
+                    // this.pedidos.push({ ncodigo: col[0], fecha: col[1], nombrecliente: col[2], direccion: col[3], total: col[4], detalles: [] });
+                }
+                alert("stock actualizado");
+            })
+            .catch(error => console.log('error', error));
+    },ConsultaStock(mytoken) {
+        if (mytoken) {
+
+        } else {
+            mytoken = localStorage.getItem("gsempresaglobal");
+        }
+        let prod =document.getElementById("txtNombreProductoinevntorysearch");
+        var raw = JSON.stringify({
+            "token": mytoken,
+            "procedure": "spINVPRODUCTOSTOCKCSVWEB",
+            "parametros": prod.value
+        });
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        this.productoslistado = [];
+        fetch(uribaseReal + "EjecutarVendey", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                let lista = result.Rpta.split("¬");
+                var nCampos = lista.length;
+                let col = [];
+                let j = 0;
+                for (j = 0; j < nCampos; j++) {
+                    col = lista[j].split("|");
+                    this.productoslistado.push({ cproducto: col[0], calmacen: col[1], nstock: col[2],nfamilia:col[3],nprecio:col[4]});
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
+}
+});
+
+
+
+   </script>
+    <script src="js/bluethownew.js">
+
+    </script>
+    <script>
+        app.initialize();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+    <script src="js/iziToast.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="module" src="js/App.js">
+
+    </script>
+    <script src="js/bluethownew.js"></script>
+
+    <script src="js/jspdf.umd.min.js"></script>
+  <style>
+     @media print {
+        
+           
+            pre {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+  </style>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
+    -->
+</body>
+
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- Color theme for statusbar (Android only) -->
+    <meta name="theme-color" content="#2196f3">
+    <!-- Your app title -->
+    <link rel="stylesheet" href="css/estilos.css">
+    <title>My App</title>
+</head>
+
+
+<body>
+
+
+
+
+    <div data-name="menuPersonalizado" class="page" id="idcontp">
+        <!-- Top Navbar -->
+        <div class="navbar barra-sub">
+            <div class="navbar-inner">
+                <div class="left">
+                    <a href="" id="btnmantenedorpersonal" class="link back">
+                        <i class="fas fa-chevron-left icono"></i>
+                    </a>
+                </div>
+                <div class="title titulo">kamachix Control : JUSTIFICACIONES</div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Bottom Toolbar -->
+        <div class="toolbar toolbar-bottom">
+            <div class="toolbar-inner barra-inf">
+                <!-- Toolbar links -->
+                <a href="/home/" class="link"><i class="icono fas fa-home fa-2x"></i></a>
+                <a href="/asistencia/" class="link"><i class="icono far fa-address-card fa-2x"></i></a>
+                <a href="/perfil/" class="link"><i class="icono far fa-user fa-2x"></i></a>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+        <div class="page">
+            <div class="page-content infinite-scroll-content infinite-scroll-top">
+
+
+                <div id="divListado" style="display: block;">
+
+                    <button class="accordion">Filtros</button>
+                    <div class="panel2">
+                        <div id="divfiltros">
+                        </div>
+                    </div>
+
+
+                    <div class="data-table-rows-select" style="text-align: center;">
+                        POR PAGINA:
+                        <div class="input input-dropdown">
+                            <select id="cbopaginacion" onchange="mostrarMatriz()">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-25 text-align-center" id="loading">
+                        <div class="preloader color-green" style="width: 44px; height: 44px"></div>
+                    </div>
+
+
+                    <div id="contextMenux" class="contenedorx">
+                        <ul>
+                            <li id="btnupdate" style="display: inline-block;width: auto;"><a class="link links"
+                                    id="btnedit"><i class="iconobarra far fa-edit"></i> EDITAR</a>
+                            </li>
+
+                            <li id="btnBuscar" style="width: 49%;display: inline-block;"><a href=""
+                                    class="link links"><i class="iconobarra fas fa-redo-alt"></i>ACTUALIZAR</a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <div class="data-table data-table-init card">
+
+                        <div style="height: 313px" id="divtabla" class="card-content"></div>
+
+                    </div>
+
+
+
+                    <div style="text-align: center;">Cantidad de
+                        registros: <span id="spnRegistros"></span>
+                    </div>
+
+                    <div id="divpagina">
+                    </div>
+                    <div id="paginacion"></div>
+                </div>
+
+
+                <div id="divDetalle" style="display: none;">
+
+                    <div class="block">
+                        <form class="list" id="my-form">
+                            <ul>
+                                <li>
+                                    <div class="item-content item-input">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Nombre :</div>
+                                            <div class="item-input-wrap">
+                                                <input type="text" name="jname" id="txtnameForm" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content item-input">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Description :</div>
+                                            <div class="item-input-wrap">
+                                                <textarea class="estilotextarea" cols="33" rows="5" id="txtdescriptionForm"
+                                                    readonly></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </li>
+                                <li>
+                                    <div class="item-content item-input">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Fecha :</div>
+                                            <div class="item-input-wrap">
+                                                <input type="text" name="jdate" id="txtdateForm" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content item-input">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Estado :</div>
+                                            <div class="item-input-wrap">
+                                                <select id="cbostate">
+                                                    <option value="Pendiente">Pendiente</option>
+                                                    <option value="Aprobado">Aprobado</option>
+                                                    <option value="Rechazado">Rechazado</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <p id="progressbarra" style="display: none;">
+                                    <span class="progressbar-infinite color-multi"></span>
+                                </p>
+                                <section id="Fotosj"></section>
+                            </ul>
+                        </form>
+                        <div>
+                            <p class="row">
+                                <button id="btnCancelar" class="col button button-fill color-red">Cancelar</button>
+                                <button id="btnNjustificacion" class="col button button-fill color-blue">Confirmar</button>
+                            </p>
+                        </div>
+                    </div>
+                    <div id="myModalj" class="modalj">
+                        <span id="closemodalj" class="closej">&times;</span>
+                        <img class="modal-contentj" id="img02">
+                        <div id="captionj"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

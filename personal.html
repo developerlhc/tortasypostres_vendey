@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- Color theme for statusbar (Android only) -->
+    <meta name="theme-color" content="#2196f3">
+    <!-- Your app title -->
+    <link rel="stylesheet" href="css/estilos.css">
+    <title>My App</title>
+</head>
+
+
+<body>
+
+
+
+
+    <div data-name="menuPersonalizado" class="page" id="idcontp">
+        <!-- Top Navbar -->
+        <div class="navbar barra-sub">
+            <div class="navbar-inner">
+                <div class="left">
+                    <a href="" id="btnmantenedorpersonal" class="link back">
+                        <i class="fas fa-chevron-left icono"></i>
+                    </a>
+                </div>
+                <div class="title titulo">kamachix Control :: PERSONAL</div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Bottom Toolbar -->
+        <div class="toolbar toolbar-bottom">
+            <div class="toolbar-inner barra-inf">
+                <!-- Toolbar links -->
+                <a href="/home/" class="link"><i class="icono fas fa-home fa-2x"></i></a>
+                <a href="/asistencia/" class="link"><i class="icono far fa-address-card fa-2x"></i></a>
+                <a href="/perfil/" class="link"><i class="icono far fa-user fa-2x"></i></a>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+        <div class="page">
+            <div class="page-content infinite-scroll-content infinite-scroll-top">
+                <div id="divListadoPersonal" style="display: block;">
+                    <button class="accordion">Filtros</button>
+                    <div class="panel2">
+                        <div id="divfiltros">
+                        </div>
+                    </div>
+    
+                    <div>
+                        <div class="data-table-rows-select" style="text-align: center;">
+                            POR PAGINA:
+                            <div class="input input-dropdown">
+                                <select id="cbopaginacion" onchange="mostrarMatriz()">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </div>
+    
+    
+                        <div class="col-25 text-align-center" id="loading">
+                            <div class="preloader color-green" style="width: 44px; height: 44px"></div>
+                        </div>
+    
+    
+                        <div id="contextMenux" class="contenedorx">
+                            <ul>
+                                <li id="btnedit" style="display: inline-block;width: auto;"><a class="link links"
+                                        id="textedit"><i class="iconobarra far fa-edit"></i> EDITAR</a></li>
+                                </li>
+                                <li id="btnBuscar" style="display: inline-block;width: auto;"><a href=""
+                                        class="link links"><i class="iconobarra fas fa-redo-alt"></i>ACTUALIZAR</a>
+                                </li>
+    
+                            </ul>
+                        </div>
+    
+    
+    
+                        <div class="data-table data-table-init card">
+    
+                            <div style="height: 313px" id="divtabla" class="card-content"></div>
+    
+                        </div>
+    
+    
+    
+                        <div style="text-align: center;">Cantidad de
+                            registros: <span id="spnRegistros"></span>
+                        </div>
+    
+                        <div id="divpagina">
+                        </div>
+                    </div>
+    
+                    <div id="paginacion"></div>
+                </div>
+                <div id="divDetallePersonal" style="display: none;">
+                    
+                        <div class="block">
+                            <form class="list" id="my-form">
+                                <ul>
+                                    <li>
+                                        <div class="item-content item-input">
+                                            <div class="item-inner">
+                                                <div class="item-title item-label">Nombres :</div>
+                                                <div class="item-input-wrap">
+                                                    <input type="text" name="pname" id="txtpname">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content item-input">
+                                            <div class="item-inner">
+                                                <div class="item-title item-label">Apellidos :</div>
+                                                <div class="item-input-wrap">
+                                                    <input type="text" name="psurnames" id="txtpsurnames">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content item-input">
+                                            <div class="item-inner">
+                                                <div class="item-title item-label">Correo :</div>
+                                                <div class="item-input-wrap">
+                                                    <input type="text" name="pemail" id="txtpemail">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content item-input">
+                                            <div class="item-inner">
+                                                <div class="item-title item-label">Contraseña :</div>
+                                                <div class="item-input-wrap">
+                                                    <input type="password" name="ppassword" id="txtppassword">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content item-input">
+                                            <div class="item-inner">
+                                                <div class="item-title item-label">Confirmar Contraseña :</div>
+                                                <div class="item-input-wrap">
+                                                    <input type="password" name="ppasswordconfirm" id="txtppasswordconfirm">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content item-input">
+                                            <div class="item-inner">
+                                                <div class="item-title item-label">Cargo :</div>
+                                                <div class="item-input-wrap">
+                                                    <select id="txtperposition">
+                                                        <option value="1">Gerente</option>
+                                                        <option value="2">Administrador</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                
+                                    </li>
+                
+                                    <li>
+                                        <div class="item-content item-input">
+                                            <div class="item-inner">
+                                                <div class="item-input-wrap">
+                                                    <div id="divcbopschedule">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </form>
+                            <!-- <div class="block block-strong row">
+                                <div class="col"><a id="btnCancelarPersonal" class="button convert-form-to-data color-red" href="#">Cancelar</a></div>
+                                <div class="col"><a id="btnNpersonal" class="button convert-form-to-data" href="#">Confirmar</a></div>
+                            </div> -->
+                            <div>
+                                <p class="row">
+                                    <button id="btnCancelarPersonal" class="col button button-fill color-red">Cancelar</button>
+                                    <button id="btnNpersonal" class="col button button-fill color-blue">Confirmar</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            <!-- <div class="preloader infinite-scroll-preloader"></div>-->
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

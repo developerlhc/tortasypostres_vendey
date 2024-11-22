@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Required meta tags-->
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!-- Color theme for statusbar (Android only) -->
+  <meta name="theme-color" content="#2196f3">
+  <!-- Your app title -->
+  <title>Registrate</title>
+  <!-- Path to Framework7 Library Bundle CSS -->
+  <link rel="stylesheet" href="css/framework7.bundle.min.css">
+  <!-- tipo de letra de google -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald|PT+Sans" rel="stylesheet">
+  <!-- Path to your custom app styles-->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- <link rel="stylesheet" href="css/estilos.css"> -->
+</head>
+
+<body>
+  <!-- App root element -->
+  <div id="registro">
+
+
+
+    <div class="page-content" >
+      <div class="block">
+        <form class="list" id="my-form">
+          <ul >
+            <li class="item-content">
+              <div class="item-media">
+                <img style="-webkit-user-select: none;margin: auto; width: 40px; height: 40px; border-radius: 50%"
+                  src="img/fondo.png">
+              </div>
+              <div class="item-inner">
+                <div class="block-title block-title-medium" style="margin-top: 10px;">Kamachix Control</div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+
+              <div class="item-inner">
+                <div class="item-title item-label">Empresa</div>
+                <div class="item-input-wrap">
+                  <input type="text" id="txtempresa" placeholder="Nombre de empresa" required validate>
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+
+              <div class="item-inner">
+                <div class="item-title item-label">Ruc</div>
+                <div class="item-input-wrap">
+                  <input type="text" id="txtruc" maxlength="11" placeholder="Tu RUC" required validate pattern="[0-9]*"
+                    data-error-message="Solo números porfavor!">
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+
+              <div class="item-inner">
+                <div class="item-title item-label">Usuario-Correo</div>
+                <div class="item-input-wrap">
+                  <input type="email" id="txtcorreo" placeholder="Tu Usuario-Correo" required validate>
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+
+              <div class="item-inner">
+                <div class="item-title item-label">Contraseña</div>
+                <div class="item-input-wrap">
+                  <input type="password" id="txtpassword" placeholder="Ingresa tu contraseña" required validate>
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+
+              <div class="item-inner">
+                <div class="item-title item-label">Cargo</div>
+                <div class="item-input-wrap input-dropdown-wrap">
+                  <select placeholder="Please choose..." id="cbocar" required validate>
+                    <option value="1">Gerente</option>
+                    <option value="2">supervisor</option>
+                  </select>
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+
+              <div class="item-inner">
+                <div class="item-title item-label">Nombre</div>
+                <div class="item-input-wrap">
+                  <input type="text" id="txtnom" placeholder="Ingresa tu nombre" required validate>
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+
+              <div class="item-inner">
+                <div class="item-title item-label">Apellidos</div>
+                <div class="item-input-wrap">
+                  <input type="text" id="txtape" placeholder="ingresa tu apellido" required validate>
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+
+              <div class="item-inner">
+                <div class="item-title item-label">Tipo Doc</div>
+                <div class="item-input-wrap input-dropdown-wrap">
+                  <select placeholder="Please choose..." id="cbodoc" required validate>
+                    <option value="1">DNI</option>
+                    <option value="2">PASAPORTE</option>
+                  </select>
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+
+              <div class="item-inner">
+                <div class="item-title item-label">Numero de Doc</div>
+                <div class="item-input-wrap">
+                  <input type="tel" id="txtnum" maxlength="8" placeholder="ingresa tu Numero de documento" required
+                    validate pattern="[0-9]*" data-error-message="Solo números porfavor!">
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+
+              <div class="item-inner">
+                <div class="item-title item-label">Direccion</div>
+                <div class="item-input-wrap">
+                  <input type="text" id="txtdir" placeholder="ingresa tu direccion" required validate>
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+
+              <div class="item-inner">
+                <div class="item-title item-label">Celular</div>
+                <div class="item-input-wrap">
+                  <input type="tel" id="txtcel" placeholder="ingresa tu celular" required validate pattern="[0-9]*"
+                    data-error-message="Solo números porfavor!">
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <a class="button button-large button-fill" style="color: #FFF;
+                                background-color: #ff0101; 
+                                left:5%; 
+                                right:0px; 
+                                bottom:-10px; 
+                                height:50px; 
+                                z-index:0;
+                                width: 90%;" id="btncancelar" onclick="fcancelar()">
+                    Cancelar</a>
+
+                </div>
+                <div class="item-inner">
+                  <a class="button button-large button-fill" style="color: #FFF;
+                              background-color: #0598FB; 
+                              left:5%; 
+                              right:0px; 
+                              bottom:-10px; 
+                              height:50px; 
+                              z-index:0;
+                              width: 90%;" id="btnregister" onclick="fregistro()">
+                    Registrate</a>
+
+                </div>
+              </div>
+
+            </li>
+          </ul>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="js/framework7.bundle.min.js"></script>
+  <script type="text/javascript" src="js/all.js"></script>
+  <script type="text/javascript" src="js/registrar.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- Color theme for statusbar (Android only) -->
+    <meta name="theme-color" content="#2196f3">
+    <!-- Your app title -->
+    <link rel="stylesheet" href="css/estilos.css">
+    <title>My App</title>
+
+</head>
+
+
+<body>
+    <div data-name="menuPersonalizado" class="page" id="idcont">
+        <!-- Top Navbar -->
+        <div class="navbar barra-sub">
+            <div class="navbar-inner">
+                <div class="left">
+                    <a href="" id="btnmantenedorpersonal" class="link back">
+                        <i class="fas fa-chevron-left icono"></i>
+                    </a>
+                </div>
+                <div class="title titulo"> kamachix Control :: HORARIO</div>
+            </div>
+        </div>
+        <!-- Bottom Toolbar -->
+        <div class="toolbar toolbar-bottom">
+            <div class="toolbar-inner barra-inf">
+                <!-- Toolbar links -->
+                <a href="/home/" class="link"><i class="icono fas fa-home fa-2x"></i></a>
+                <a href="/asistencia/" class="link"><i class="icono far fa-address-card fa-2x"></i></a>
+                <a href="/perfil/" class="link"><i class="icono far fa-user fa-2x"></i></a>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+        <div class="page">
+            <div class="page-content infinite-scroll-content infinite-scroll-top">
+                <div id="divListadoHorarios" style="display: block;">
+
+                    <button class="accordion">Filtros</button>
+                    <div class="panel2">
+                        <div id="divfiltros">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="data-table-rows-select" style="text-align: center;">
+                            POR PAGINA:
+                            <div class="input input-dropdown">
+                                <select id="cbopaginacion" onchange="mostrarMatriz()">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-25 text-align-center" id="loading">
+                            <div class="preloader color-green" style="width: 44px; height: 44px"></div>
+                        </div>
+                        <div id="contextMenux" class="contenedorx">
+                            <ul>
+                                <li id="btnnew" style="display: inline-block;width: auto;" class="col button"><a
+                                        class="link links"><i class="iconobarra far fa-edit"></i> NUEVO</a>
+                                </li>
+                                <li id="btnedit" style="display: inline-block;width: auto;" class="col button"><a
+                                        class="link links" id="textedit"><i class="iconobarra far fa-edit"></i> EDITAR</a></li>
+                                <li id="btndelete" style="display: inline-block;width: auto;"
+                                    class="col button open-confirm"><a href="" class="link links" id="textdelete"><i
+                                            class="iconobarra far fa-trash-alt"></i> ELIMINAR</a>
+                                </li>
+                                <li id="btnBuscar" style="display: inline-block;width: auto;" class="col button"><a
+                                        href="" class="link links"><i
+                                            class="iconobarra fas fa-redo-alt"></i>ACTUALIZAR</a>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <div class="data-table data-table-init card">
+                            <div style="height: 313px" id="divtabla" class="card-content"></div>
+                        </div>
+
+                        <div style="text-align: center;">Cantidad de
+                            registros: <span id="spnRegistros"></span>
+                        </div>
+                        <div id="divpagina">
+                        </div>
+                    </div>
+
+                    <div id="paginacion"></div>
+                </div>
+
+                
+                <div id="divDetalleHorarios" style="display: none;">
+
+                    <div class="block">
+                        <form class="list" id="my-form">
+                            <ul>
+                                <li style="display: none;">
+                                    <div class="item-content item-input">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Ruc :</div>
+                                            <div class="item-input-wrap">
+                                                <input type="text" name="hruc" id="txthruc" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content item-input">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Nombres ::</div>
+                                            <div class="item-input-wrap">
+                                                <input type="text" name="hname" id="txthname" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content item-input">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Tipo de horario :</div>
+                                            <div class="item-input-wrap">
+                                                <select id="cbohtipo" disabled>
+                                                    <option value="1">Tipico</option>
+                                                    <option value="2">Atipico</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content item-input">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Descripcion :</div>
+                                            <div class="item-input-wrap">
+                                                <input type="text" name="hdescription" id="txthdescription">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content item-input">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Observacion :</div>
+                                            <div class="item-input-wrap">
+                                                <input type="text" name="hobservation" id="txthobservation">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content item-input">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Dia Inicial : :</div>
+                                            <div class="item-input-wrap">
+                                                <select id="cbohdaystart">
+                                                    <option value="1">Domingo</option>
+                                                    <option value="2">Lunes</option>
+                                                    <option value="3">Martes</option>
+                                                    <option value="4">Miercoles</option>
+                                                    <option value="5">Jueves</option>
+                                                    <option value="6">Viernes</option>
+                                                    <option value="7">Sabado</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content item-input">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Dia Final: :</div>
+                                            <div class="item-input-wrap">
+                                                <select id="cbohdayend">
+                                                    <option value="1">Domingo</option>
+                                                    <option value="2">Lunes</option>
+                                                    <option value="3">Martes</option>
+                                                    <option value="4">Miercoles</option>
+                                                    <option value="5">Jueves</option>
+                                                    <option value="6">Viernes</option>
+                                                    <option value="7">Sabado</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content item-input">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Tiempo inicial :</div>
+                                            <div class="item-input-wrap">
+                                                <input type="time" name="htimestart" id="txthtimestart">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content item-input">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label">Tiempo final :</div>
+                                            <div class="item-input-wrap">
+                                                <input type="time" name="htimeend" id="txthtimeend">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </form>
+                        <!-- <div class="block block-strong row">
+                                <div class="col"><a id="btnCancelar" class="button convert-form-to-data color-red"
+                                    href="#">Cancelar</a></div>
+                                <div class="col"><a id="btnNhorario" class="button convert-form-to-data"
+                                        href="#">Confirmar</a></div>
+                            </div> -->
+                        <div>
+                            <p class="row">
+                                <button id="btnCancelar" class="col button button-fill color-red">Cancelar</button>
+                                <button id="btnNhorario" class="col button button-fill color-blue">Confirmar</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

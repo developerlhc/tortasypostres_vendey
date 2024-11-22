@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Required meta tags-->
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!-- Color theme for statusbar (Android only) -->
+  <meta name="theme-color" content="#2196f3">
+  <!-- Your app title -->
+  <title>Registrate</title>
+  <!-- Path to Framework7 Library Bundle CSS -->
+  <link rel="stylesheet" href="css/framework7.bundle.min.css">
+  <!-- tipo de letra de google -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald|PT+Sans" rel="stylesheet">
+  <!-- Path to your custom app styles-->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- <link rel="stylesheet" href="css/estilos.css"> -->
+</head>
+
+<body>
+  <!-- App root element -->
+  <div id="recuperar">
+
+
+
+    <div class="page-content">
+      <div class="block" style="display: block;">
+        <form class="list" id="my-form">
+
+          <ul>
+            <li class="item-content">
+              <div class="item-media">
+                <img style="-webkit-user-select: none;margin: auto; width: 40px; height: 40px; border-radius: 50%"
+                  src="img/fondo.png">
+              </div>
+              <div class="item-inner">
+                <div class="block-title block-title-medium" style="margin-top: 10px;">Kamachix Control</div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Ruc</div>
+                <div class="item-input-wrap">
+                  <input type="text" id="txtreruc" maxlength="11" placeholder="Tu RUC" required validate pattern="[0-9]*"
+                    data-error-message="Solo números porfavor!">
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+
+              <div class="item-inner">
+                <div class="item-title item-label">Usuario-Correo</div>
+                <div class="item-input-wrap">
+                  <input type="email" id="txtrecorreo" placeholder="Tu Usuario-Correo" required validate>
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div class="item-content item-input">
+                <!-- <div class="item-inner">
+                  <a class="button button-large button-fill" style="color: #FFF;
+                                background-color: #ff0101; 
+                                left:5%; 
+                                right:0px; 
+                                bottom:-10px; 
+                                height:50px; 
+                                z-index:0;
+                                width: 90%;" id="btncancelar" onclick="fcancelar()">
+                    Cancelar</a>
+
+                </div> -->
+                <div class="item-inner">
+                  <a class="button button-large button-fill" style="color: #FFF;
+                              background-color: #0598FB; 
+                              left:5%; 
+                              right:0px; 
+                              bottom:-10px; 
+                              height:50px; 
+                              z-index:0;
+                              width: 90%;" id="btnregister" onclick="frecuperar()">
+                    Recuperar</a>
+
+                </div>
+              </div>
+
+            </li>
+          </ul>
+        </form>
+      </div>
+      <div class="block" style="display: block;">
+        <form class="list" id="my-form">
+
+          <ul>
+            <li class="item-content">
+              <div class="item-media">
+                <img style="-webkit-user-select: none;margin: auto; width: 40px; height: 40px; border-radius: 50%"
+                  src="img/fondo.png">
+              </div>
+              <div class="item-inner">
+                <div class="block-title block-title-medium" style="margin-top: 10px;">Kamachix Control</div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+
+              <div class="item-inner">
+                <div class="item-title item-label">Token</div>
+                <div class="item-input-wrap">
+                  <input type="text" id="txttoken" placeholder="Ingresa tu Token" required validate>
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+
+              <div class="item-inner">
+                <div class="item-title item-label">Contraseña</div>
+                <div class="item-input-wrap">
+                  <input type="password" id="txtrepassword" placeholder="Ingresa tu contraseña" required validate>
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+
+              <div class="item-inner">
+                <div class="item-title item-label">Contraseña-Confirma</div>
+                <div class="item-input-wrap">
+                  <input type="password" id="txtrepasswordconfirm" placeholder="Ingresa tu contraseña" required validate>
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div class="item-content item-input">
+                <div class="item-inner">
+                  <a class="button button-large button-fill" style="color: #FFF;
+                                background-color: #ff0101; 
+                                left:5%; 
+                                right:0px; 
+                                bottom:-10px; 
+                                height:50px; 
+                                z-index:0;
+                                width: 90%;" id="btncancelar" onclick="fcancelar()">
+                    Cancelar</a>
+
+                </div>
+                <div class="item-inner">
+                  <a class="button button-large button-fill" style="color: #FFF;
+                              background-color: #0598FB; 
+                              left:5%; 
+                              right:0px; 
+                              bottom:-10px; 
+                              height:50px; 
+                              z-index:0;
+                              width: 90%;" id="btnregister" onclick="fnewpass()">
+                    Recuperar</a>
+
+                </div>
+              </div>
+
+            </li>
+          </ul>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="js/framework7.bundle.min.js"></script>
+  <script type="text/javascript" src="js/all.js"></script>
+  <script type="text/javascript" src="js/recuperar.js"></script>
+
+
+</body>
+
+</html>
